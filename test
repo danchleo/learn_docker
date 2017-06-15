@@ -1,0 +1,68 @@
+
+## 对接VServer主要实现的接口列表
+
+### Nova部分以nova-compute的virt driver的方式对接实现了如下接口：
+1. cleanup_host(self, host)
+2. get_info(self, instance)
+3. get_num_instances(self)
+4. instance_exists(self, instance)
+5. estimate_instance_overhead(self, instance_info)
+6. list_instances(self)
+7. list_instance_uuids(self)
+8. spawn(self, context, instance, image_meta, injected_files, admin_password, network_info=None, block_device_info=None)
+9. destroy(self, context, instance, network_info, block_device_info=None, destroy_disks=True, migrate_data=None)
+10. reboot(self, context, instance, network_info, reboot_type, block_device_info=None, bad_volumes_callback=None)
+11. get_console_pool_info(self, console_type)
+12. get_vnc_console(self, context, instance)
+13. attach_volume(self, context, connection_info, instance, mountpoint, disk_bus=None, device_type=None, encryption=None)
+14. detach_volume(self, connection_info, instance, mountpoint, encryption=None):
+15. attach_interface(self, instance, image_meta, vif)
+16. detach_interface(self, instance, vif)
+17. migrate_disk_and_power_off(self, context, instance, dest, flavor, network_info, block_device_info=None, *args, **kwargs)
+18. snapshot(self, context, instance, image_id, update_task_state)
+19. finish_migration(self, context, migration, instance, disk_info, network_info, image_meta, resize_instance, block_device_info=None, power_on=True):
+20. confirm_migration(self, migration, instance, network_info)
+21. finish_revert_migration(self, context, instance, network_info, block_device_info=None, power_on=True)
+22. pause(self, instance)
+23. unpause(self, instance)
+24. suspend(self, context, instance)
+25. resume(self, context, instance, network_info, block_device_info=None)
+26. resume_state_on_host_boot(self, context, instance, network_info, block_device_info=None)
+27. power_off(self, instance, timeout=5, retry_interval=5)
+28. power_on(self, context, instance, network_info, block_device_info=None):
+29. live_migration(self, ctxt, instance_ref, dest, post_method, recover_method, block_migration=False, migrate_data=None)
+30. post_live_migration(self, ctxt, instance_ref, block_device_info, migrate_data=None)
+31. reset_network(self, instance)
+32. get_volume_connector(self, instance)
+33. get_per_instance_usage(self)
+34. instance_on_disk(self, instance)
+35. need_legacy_block_device_info(self)
+36. get_host_ip_addr(self)
+37. resize_instance_local(self, context, instance, config)
+38. _get_available_resource(self, host_stats)
+39. get_available_resource(self, node_name)
+40. get_host_stats(self, refresh=False)
+41. spawn(self, context, instance, image_meta, injected_files, admin_password, network_info=None, block_device_info=None)
+
+### neutron部分以ml2 plugin的方式对接
+主要是hook了端口操作、网络操作的接口
+#### mech driver实现了如下借口
+1. create_network_postcommit(self, context)
+2. update_network_postcommit(self, context)
+3. delete_network_postcommit(self, context)
+4. create_port_postcommit(self, context)
+5. delete_port_postcommit(self, context)
+6. try_to_bind_segment_for_agent(self, context, segment, agent)
+
+### ceilometer部分增加了获取VServer虚拟机和服务器资源
+#### compute.virt下的inspector实现的接口
+1. inspect_cpu_util(self, instance, duration=None)
+2. inspect_memory_usage(self, instance, duration=None)
+3. inspect_vnic_rates(self, instance, duration=None)
+4. inspect_disk_rates(self, instance, duration=None)
+5. inspect_guest_disk_info(self, instance, duration=None)
+6. inspect_guest_cpu_info(self, instance, duration=None)
+7. inspect_guest_memory_info(self, instance, duration=None)
+
+#### hypervisor.virt下的inspector实现的接口
+1. inspect_hypervisor_info(self, hypervisor)
