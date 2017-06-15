@@ -25,3 +25,9 @@ docker run --net=br-admin -it ubuntu-16.04
 }
 ```
 然后重启docker
+
+### 验证
+```
+brctl show br0
+docker inspect container0
+```
