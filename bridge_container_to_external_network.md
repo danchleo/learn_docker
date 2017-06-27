@@ -14,6 +14,9 @@ ifconfig br0 10.0.189.109 netmask 255.255.0.0
 ```
 docker network create --driver=bridge --ip-range=10.0.190.0/24 --subnet=10.0.0.0/16 --aux-address='ip1=10.0.190.1' --aux-address='ip2=10.0.190.2' --aux-address='ip3=10.0.190.3' -o "com.docker.network.bridge.name=br0" br0
 docker run --net=br-admin -it ubuntu-16.04
+
+#另外一种
+docker network create --driver=bridge --ip-range=172.16.51.0/16 --subnet=172.16.0.0/16 --gateway=172.16.51.10 -o "com.docker.network.bridge.name=br0" br0
 ```
 #### 方法二
 编辑/etc/docker/daemon.json
